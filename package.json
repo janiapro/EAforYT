@@ -12,7 +12,7 @@
     "@chainlink/contracts": "^0.5.1",
     "@chainlink/external-adapter": "^0.2.3",
     "axios": "^1.1.2",
-    "dotenv": "^16.0.2",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2"
   },
   "devDependencies": {

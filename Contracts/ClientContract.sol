@@ -2,7 +2,7 @@
 pragma solidity ^0.8.7;
 
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
-import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
+import "@chainlink/contracts/src/v0.8/shared/access/ConfirmedOwner.sol";
 
 /**
  * THIS IS AN EXAMPLE CONTRACT THAT USES UN-AUDITED CODE.
@@ -13,44 +13,44 @@ contract ConsumerContract is ChainlinkClient, ConfirmedOwner {
     using Chainlink for Chainlink.Request;
 
     uint256 private constant ORACLE_PAYMENT = 1 * LINK_DIVISIBILITY; // 1 * 10**18
-    string public lastRetrievedInfo;
+    string public lastRetrievedsubscriberCount;
 
-    event RequestForInfoFulfilled(
+    event RequestForsubscriberCountFulfilled(
         bytes32 indexed requestId,
         string indexed response
     );
 
     /**
-     *  Goerli
-     *@dev LINK address in Goerli network: 0x326C977E6efc84E512bB9C30f76E30c160eD06FB
+     *  Sepholia
+     *@dev LINK address in Sepholia network: 0x779877A7B0D9E8603169DdbD7836e478b4624789
      * @dev Check https://docs.chain.link/docs/link-token-contracts/ for LINK address for the right network
      */
     constructor() ConfirmedOwner(msg.sender) {
-        setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB);
+        setChainlinkToken(0x779877A7B0D9E8603169DdbD7836e478b4624789);
     }
 
     function requestInfo(
         address _oracle,
         string memory _jobId,
-        string memory number,
-        string memory infoType
+        string memory chid,
+        string memory key
     ) public onlyOwner {
         Chainlink.Request memory req = buildOperatorRequest(
             stringToBytes32(_jobId),
-            this.fulfillRequestInfo.selector
+            this.fulfillRequestsubscriberCount.selector
         );
 
-        req.add("number", number);
-        req.add("infoType", infoType);
+        req.add("chid", chid);
+        req.add("key", key);
         sendOperatorRequestTo(_oracle, req, ORACLE_PAYMENT);
     }
 
-    function fulfillRequestInfo(bytes32 _requestId, string memory _info)
+    function fulfillRequestsubscriberCount(bytes32 _requestId, string memory _subscriberCount)
         public
         recordChainlinkFulfillment(_requestId)
     {
-        emit RequestForInfoFulfilled(_requestId, _info);
-        lastRetrievedInfo = _info;
+        emit RequestForsubscriberCountFulfilled(_requestId, _subscriberCount);
+        lastRetrievedsubscriberCount = _subscriberCount;
     }
 
     /*
