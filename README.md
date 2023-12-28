@@ -1,6 +1,6 @@
 # INTRODUCTION
 
--This is an external adapter implementation to query the subscribercount from a youtube chanel, and return the value in a smartcontract.
+-This is an external adapter implementation to query the subscribercount from a youtube channel, and return the value in a smartcontract.
 
 # Recommended Prerequisites
 
